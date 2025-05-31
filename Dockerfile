@@ -1,10 +1,10 @@
 # Build stage
-FROM golang:1.21-alpine AS builder
+FROM golang:1.24-alpine AS builder
 
 WORKDIR /app
 
 # Install git for go modules
-RUN apk add --no-cache git ca-certificates tzdata
+RUN apk --no-cache add git ca-certificates
 
 # Copy go mod files
 COPY go.mod go.sum ./
@@ -14,13 +14,16 @@ RUN go mod download
 COPY . .
 
 # Build the application
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o main ./cmd/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main ./cmd/main.go
 
 # Final stage
 FROM alpine:latest
 
 # Install ca-certificates for HTTPS requests
-RUN apk --no-cache add ca-certificates tzdata
+RUN apk --no-cache add ca-certificates
+
+# Create a user for security
+RUN adduser -D -s /bin/sh appuser
 
 WORKDIR /root/
 
@@ -28,8 +31,11 @@ WORKDIR /root/
 COPY --from=builder /app/main .
 COPY --from=builder /app/latter.html .
 
-# Create .env file with default values (will be overridden by environment variables)
-RUN echo 'PORT=8080\nDB_CONNECTION_STRING=postgresql://user:password@db:5432/mydb?sslmode=disable\nSECRET=\nMAIL=\nSMTP_HOST=smtp.mail.ru\nSMTP_PORT=465' > .env
+# Change file ownership
+RUN chown -R appuser:appuser /root/
+
+# Switch to the unprivileged user
+USER appuser
 
 # Expose port
 EXPOSE 8080

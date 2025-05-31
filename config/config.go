@@ -15,11 +15,13 @@ type Config struct {
 
 func Load(path string) (*Config, error) {
 	var config Config
-	err := cleanenv.ReadConfig(path, &config)
-	if err != nil {
-		panic(err)
-	}
-	err = cleanenv.ReadEnv(&config)
+
+	// Пробуем загрузить из файла, если он существует
+	// но не паникуем если файла нет (для Docker контейнеров)
+	_ = cleanenv.ReadConfig(path, &config)
+
+	// Загружаем из переменных окружения (приоритет)
+	err := cleanenv.ReadEnv(&config)
 	if err != nil {
 		panic(err)
 	}

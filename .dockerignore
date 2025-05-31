@@ -1,0 +1,45 @@
+# Git
+.git
+.gitignore
+README.md
+
+# Documentation
+*.md
+docs/
+
+# Development files
+.env
+.env.local
+.env.development
+.env.test
+
+# Node modules (for TradePlusOnline)
+TradePlusOnline/node_modules
+TradePlusOnline/.npm
+TradePlusOnline/npm-debug.log*
+
+# Build artifacts
+main
+*.exe
+*.out
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# CI/CD
+.github/
+
+# Logs
+*.log 

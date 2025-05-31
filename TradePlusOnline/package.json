@@ -1,0 +1,42 @@
+{
+  "name": "trade-plus-early-bird",
+  "version": "1.0.0",
+  "description": "Early bird marketing system for Trade Plus trading course and AI bot",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "build": "echo 'Build completed - static files ready'",
+    "test": "echo 'No tests specified'",
+    "deploy": "npm run build && npm start"
+  },
+  "keywords": [
+    "trading",
+    "early-bird",
+    "preorder",
+    "marketing",
+    "nodejs",
+    "express"
+  ],
+  "author": "Trade Plus",
+  "license": "MIT",
+  "dependencies": {
+    "compression": "^1.8.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "helmet": "^7.2.0",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tradeplus/early-bird"
+  },
+  "homepage": "https://tradeplus.com"
+}

@@ -1,0 +1,8 @@
+CREATE TABLE  IF NOT EXISTS send  (
+    Number TEXT NOT NULL ,
+    Email TEXT NOT NULL ,
+    TGNikName TEXT NOT NULL,
+    Id1     TEXT NOT NULL,
+    Id2  TEXT NOT NULL,
+    Id3  TEXT NOT NULL
+)

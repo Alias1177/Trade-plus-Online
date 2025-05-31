@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Trade Plus</title>
+    <meta name="description" content="🔥 Secure your early bird spot! Pre-order our trading course & AI bot at 70% OFF. Limited spots available - Don't miss out!">
+    <meta name="keywords" content="early bird, pre-order, trading course, trading bot, discount, limited offer">
+    <link rel="icon" href="./assets/logowhite.png" type="image/png">
+
+    <!-- Optimized CSS Loading -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            overflow-x: hidden;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #10B981, #059669);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .pulse-glow {
+            animation: pulse-glow 2s infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(16, 185, 129, 0.8);
+            }
+        }
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        .slide-in {
+            animation: slideIn 0.8s ease-out;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .progress-bar {
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        /* Loading optimization */
+        img {
+            loading: lazy;
+        }
+        /* Responsive improvements */
+        @media (max-width: 768px) {
+            .floating {
+                animation: none;
+            }
+        }
+        /* Form validation styles */
+        .error {
+            border-color: #ef4444 !important;
+        }
+        .success {
+            border-color: #10b981 !important;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-green-900 text-white min-h-screen">
+
+<!-- Early Bird Alert Banner -->
+<div class="w-full bg-gradient-to-r from-red-600 via-red-500 to-orange-500 text-white text-center py-3 fixed top-0 left-0 z-50 shadow-lg">
+    <div class="flex items-center justify-center space-x-2 animate-pulse">
+        <i class="fas fa-fire text-yellow-300" aria-hidden="true"></i>
+        <p class="text-sm md:text-base font-bold">
+            🚨 EARLY BIRD ENDING SOON - Only <span id="spots-left" class="text-yellow-300 font-black">45</span> spots left!
+        </p>
+        <i class="fas fa-fire text-yellow-300" aria-hidden="true"></i>
+    </div>
+</div>
+
+<!-- Header -->
+<header class="pt-16 pb-8 px-4 md:px-12">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+            <img src="./assets/logowhite.png" alt="Trade Plus Logo" class="h-12 w-12 floating" loading="eager">
+            <div>
+                <h1 class="text-xl md:text-2xl font-black gradient-text">TRADE PLUS</h1>
+                <p class="text-xs text-gray-300">Early Bird Pre-Order</p>
+            </div>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="hidden md:flex items-center space-x-4 text-sm">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                    <i class="fas fa-check text-white text-xs" aria-hidden="true"></i>
+                </div>
+                <span>Package Selected</span>
+            </div>
+            <div class="w-8 h-1 bg-green-500 rounded"></div>
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                    <span class="text-white text-xs font-bold">2</span>
+                </div>
+                <span>Pre-Order Details</span>
+            </div>
+            <div class="w-8 h-1 bg-gray-600 rounded"></div>
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
+                    <span class="text-gray-400 text-xs font-bold">3</span>
+                </div>
+                <span class="text-gray-400">Confirmation</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="max-w-7xl mx-auto px-4 md:px-12 pb-12">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+        <!-- Left Section - Package Details -->
+        <div class="space-y-8">
+            <!-- Countdown Timer -->
+            <div class="bg-black/50 backdrop-blur-sm rounded-2xl p-6 border border-red-500/30">
+                <h3 class="text-center text-lg font-bold text-red-400 mb-4">
+                    <i class="fas fa-clock mr-2"></i>Early Bird Offer Ends In:
+                </h3>
+                <div class="flex justify-center space-x-4">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-b from-red-500 to-red-600 rounded-xl flex items-center justify-center text-2xl font-bold" id="hours">00</div>
+                        <p class="text-sm mt-2">Hours</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-b from-red-500 to-red-600 rounded-xl flex items-center justify-center text-2xl font-bold" id="minutes">00</div>
+                        <p class="text-sm mt-2">Minutes</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-b from-red-500 to-red-600 rounded-xl flex items-center justify-center text-2xl font-bold" id="seconds">00</div>
+                        <p class="text-sm mt-2">Seconds</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Package Selection -->
+            <div class="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
+                <h2 class="text-2xl font-bold mb-6 text-center">Choose Your Early Bird Package</h2>
+
+                <div class="space-y-4">
+                    <!-- Course Package -->
+                    <div class="package-option border-2 border-gray-600 rounded-xl p-4 cursor-pointer transition-all duration-300 hover:border-green-500" data-package="Id1">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <input type="radio" name="package" value="Id1" class="w-5 h-5 text-green-500">
+                                <div>
+                                    <h3 class="font-bold">Trading Course Only</h3>
+                                    <p class="text-sm text-gray-400">Complete institutional trading guide</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-gray-400 line-through text-sm">$47.99</div>
+                                <div class="text-xl font-bold text-green-400">$9.60</div>
+                                <div class="text-xs text-green-400">80% OFF</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bot Package -->
+                    <div class="package-option border-2 border-gray-600 rounded-xl p-4 cursor-pointer transition-all duration-300 hover:border-green-500" data-package="Id2">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <input type="radio" name="package" value="Id2" class="w-5 h-5 text-green-500">
+                                <div>
+                                    <h3 class="font-bold">AI Trading Bot Only</h3>
+                                    <p class="text-sm text-gray-400">24/7 automated trading assistant</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-gray-400 line-through text-sm">$97.99</div>
+                                <div class="text-xl font-bold text-green-400">$19.60</div>
+                                <div class="text-xs text-green-400">80% OFF</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Combo Package (Recommended) -->
+                    <div class="package-option border-2 border-yellow-500 bg-gradient-to-r from-green-900/30 to-yellow-900/30 rounded-xl p-4 cursor-pointer transition-all duration-300 relative" data-package="Id3">
+                        <div class="absolute -top-2 left-4 bg-yellow-500 text-black text-xs font-bold px-3 py-1 rounded-full">
+                            BEST VALUE
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <input type="radio" name="package" value="Id3" class="w-5 h-5 text-yellow-500" checked>
+                                <div>
+                                    <h3 class="font-bold text-yellow-400">Complete Package</h3>
+                                    <p class="text-sm text-gray-300">Course + Bot + Exclusive Bonuses</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-gray-300 line-through text-sm">$145.98</div>
+                                <div class="text-2xl font-bold text-yellow-400">$29.20</div>
+                                <div class="text-xs text-yellow-400">SAVE $116.78</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- What's Included -->
+            <div class="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
+                <h3 class="text-xl font-bold mb-4">What's Included:</h3>
+                <div id="package-features" class="space-y-3">
+                    <!-- Features will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Social Proof -->
+            <div class="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-bold">Early Bird Stats</h3>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 text-center">
+                    <div>
+                        <div class="text-2xl font-bold text-green-400 counter" data-target="523">0</div>
+                        <p class="text-sm text-gray-400">Early Birds Joined</p>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-green-400">4.9/5</div>
+                        <p class="text-sm text-gray-400">Average Rating</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Section - Pre-Order Form -->
+        <div class="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-700 h-fit">
+            <div class="text-center mb-6">
+                <h2 class="text-3xl font-bold mb-2">Secure Your Early Bird Spot</h2>
+                <p class="text-gray-300">Join 523+ traders who secured their discount!</p>
+            </div>
+
+            <form id="preOrderForm" class="space-y-6">
+                <!-- Contact Information -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-semibold border-b border-gray-600 pb-2">Contact Information</h3>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Phone Number *</label>
+                        <input type="tel" id="phoneNumber" required placeholder="+1234567890" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:border-green-500 focus:outline-none transition">
+                        <p class="text-xs text-gray-400 mt-1">Include country code (e.g., +1234567890)</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Email Address *</label>
+                        <input type="email" id="email" required class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:border-green-500 focus:outline-none transition">
+                        <p class="text-xs text-gray-400 mt-1">We'll send your pre-order confirmation here</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Telegram Username</label>
+                        <input type="text" id="telegram" placeholder="@username" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:border-green-500 focus:outline-none transition">
+                        <p class="text-xs text-gray-400 mt-1">Required for bot access (if selected)</p>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="bg-green-900/30 border border-green-500/30 rounded-lg p-4">
+                    <h3 class="font-bold mb-3">Order Summary</h3>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span>Package:</span>
+                            <span id="selectedPackage" class="font-bold">Complete Package</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Regular Price:</span>
+                            <span id="regularPrice" class="line-through text-gray-400">$145.98</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Early Bird Discount:</span>
+                            <span id="discount" class="text-green-400">-$116.78</span>
+                        </div>
+                        <hr class="border-gray-600">
+                        <div class="flex justify-between text-lg font-bold text-green-400">
+                            <span>Total:</span>
+                            <span id="totalPrice">$29.20</span>
+                        </div>
+                        <div class="text-center text-sm text-yellow-400 font-semibold">
+                            You save <span id="savings">80%</span>!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terms Agreement -->
+                <div class="flex items-start space-x-3">
+                    <input type="checkbox" id="terms" required class="w-5 h-5 text-green-500 mt-1">
+                    <label for="terms" class="text-sm text-gray-300">
+                        I agree to the <a href="#" onclick="openPopup('terms')" class="text-green-400 hover:underline">Terms & Conditions</a>
+                        and <a href="#" onclick="openPopup('privacy')" class="text-green-400 hover:underline">Privacy Policy</a>.
+                        I understand this is a pre-order and products will be delivered upon completion.
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 rounded-xl transition-all duration-300 pulse-glow">
+                    <i class="fas fa-lock mr-2"></i>
+                    SECURE MY EARLY BIRD SPOT - <span id="buttonPrice">$29.20</span>
+                </button>
+
+                <div class="text-center text-sm text-gray-400">
+                    <i class="fas fa-shield-alt mr-1"></i>
+                    Secure checkout • Digital products delivery
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Success Modal -->
+<div id="successModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+    <div class="bg-gray-900 rounded-2xl p-8 max-w-md w-full mx-4 border border-green-500 text-center">
+        <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-check text-white text-2xl"></i>
+        </div>
+        <h3 class="text-2xl font-bold mb-4 text-green-400">Pre-Order Confirmed!</h3>
+        <p class="text-gray-300 mb-6">
+            🎉 Congratulations! You've secured your early bird spot.
+            Check your email for confirmation details and next steps.
+        </p>
+        <div class="bg-green-900/30 border border-green-500/30 rounded-lg p-4 mb-6">
+            <p class="text-sm">
+                <strong>What happens next?</strong><br>
+                • You'll receive a confirmation email<br>
+                • Products will be delivered upon completion<br>
+                • You'll get exclusive early bird bonuses<br>
+                • Priority support access
+            </p>
+        </div>
+        <button onclick="closeSuccessModal()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg transition">
+            Continue
+        </button>
+    </div>
+</div>
+
+<!-- Terms/Privacy Popup -->
+<div id="popup" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center hidden z-50">
+    <div class="bg-gray-900 rounded-2xl shadow-lg w-3/4 max-w-lg p-6 relative max-h-[80vh] overflow-y-auto border border-gray-700">
+        <button class="absolute top-4 right-4 bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition" onclick="closePopup()">×</button>
+        <h2 id="popup-title" class="text-2xl font-bold mb-4"></h2>
+        <p id="popup-content" class="text-gray-300 leading-relaxed"></p>
+    </div>
+</div>
+
+<script>
+// Package configurations
+const packages = {
+    Id1: {
+        name: "Trading Course",
+        regularPrice: 47.99,
+        earlyBirdPrice: 9.60,
+        features: [
+            "Complete Trading Course PDF",
+            "Institutional Trading Strategies",
+            "Risk Management Guide",
+            "Live Case Studies",
+            "Market Structure Analysis"
+        ]
+    },
+    Id2: {
+        name: "AI Trading Bot",
+        regularPrice: 97.99,
+        earlyBirdPrice: 19.60,
+        features: [
+            "24/7 Telegram Trading Bot",
+            "Automated Signal Analysis",
+            "Real-time Market Updates",
+            "Risk Alerts & Notifications",
+            "Custom Trading Preferences"
+        ]
+    },
+    Id3: {
+        name: "Complete Package",
+        regularPrice: 145.98,
+        earlyBirdPrice: 29.20,
+        features: [
+            "Complete Trading Course PDF",
+            "24/7 AI Trading Bot Access",
+            "Exclusive Early Bird Bonuses",
+            "Priority Support",
+            "Lifetime Updates",
+            "Advanced Strategy Videos",
+            "Private Community Access"
+        ]
+    }
+};
+
+let selectedPackage = 'Id3';
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+    startCountdown();
+    updateSpotsLeft();
+    animateCounters();
+    setupPackageSelection();
+    handleURLParameters();
+    updateOrderSummary();
+    setupFormSubmission();
+});
+
+// Handle URL parameters for automatic package selection
+function handleURLParameters() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const packageParam = urlParams.get('package');
+
+    // Mapping старых значений к новым
+    const packageMapping = {
+        'course': 'Id1',
+        'bot': 'Id2',
+        'combo': 'Id3',
+        // Новые значения остаются как есть
+        'Id1': 'Id1',
+        'Id2': 'Id2',
+        'Id3': 'Id3'
+    };
+
+    const mappedPackage = packageMapping[packageParam];
+
+    if (mappedPackage && packages[mappedPackage]) {
+        selectedPackage = mappedPackage;
+
+        // Update UI to reflect the selected package
+        const packageOptions = document.querySelectorAll('.package-option');
+        packageOptions.forEach(option => {
+            option.classList.remove('border-green-500', 'bg-green-900/20');
+            const radio = option.querySelector('input[type="radio"]');
+            radio.checked = false;
+        });
+
+        // Select the correct package
+        const targetOption = document.querySelector(`[data-package="${mappedPackage}"]`);
+        if (targetOption) {
+            targetOption.classList.add('border-green-500', 'bg-green-900/20');
+            const radio = targetOption.querySelector('input[type="radio"]');
+            radio.checked = true;
+        }
+
+        updateOrderSummary();
+        updatePackageFeatures();
+    }
+}
+
+// Countdown timer
+    function startCountdown() {
+    const countdownKey = "earlyBirdEndTime";
+    const countdownDuration = 4 * 24 * 60 * 60 * 1000 + 8 * 60 * 60 * 1000; // 4 days 8 hours (added 3 more days)
+
+        function getEndTime() {
+            const storedEndTime = localStorage.getItem(countdownKey);
+            return storedEndTime ? parseInt(storedEndTime) : Date.now() + countdownDuration;
+        }
+
+        function setEndTime(time) {
+            localStorage.setItem(countdownKey, time);
+        }
+
+        let countDownDate = getEndTime();
+        setEndTime(countDownDate);
+
+    const timer = setInterval(function() {
+            const now = Date.now();
+            const distance = countDownDate - now;
+
+            if (distance < 0) {
+            countDownDate = Date.now() + countdownDuration;
+            setEndTime(countDownDate);
+            }
+
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("hours").innerText = hours.toString().padStart(2, "0");
+        document.getElementById("minutes").innerText = minutes.toString().padStart(2, "0");
+        document.getElementById("seconds").innerText = seconds.toString().padStart(2, "0");
+        }, 1000);
+    }
+
+// Update spots counter
+function updateSpotsLeft() {
+    const spotsElement = document.getElementById('spots-left');
+    let spots = 45;
+
+    setInterval(() => {
+        if (Math.random() < 0.15 && spots > 5) {
+            spots--;
+            spotsElement.textContent = spots;
+        }
+    }, 45000);
+}
+
+// Animate counters
+function animateCounters() {
+    const counters = document.querySelectorAll('.counter');
+
+    counters.forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-target'));
+        let count = 0;
+        const increment = target / 100;
+
+        const updateCounter = () => {
+            if (count < target) {
+                count += increment;
+                counter.textContent = Math.ceil(count);
+                setTimeout(updateCounter, 20);
+            } else {
+                counter.textContent = target;
+            }
+        };
+
+        updateCounter();
+    });
+}
+
+// Package selection
+function setupPackageSelection() {
+    const packageOptions = document.querySelectorAll('.package-option');
+
+    packageOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            // Remove previous selection
+            packageOptions.forEach(opt => opt.classList.remove('border-green-500', 'bg-green-900/20'));
+
+            // Add selection to clicked option
+            this.classList.add('border-green-500', 'bg-green-900/20');
+
+            // Update radio button
+            const radio = this.querySelector('input[type="radio"]');
+            radio.checked = true;
+
+            // Update selected package
+            selectedPackage = this.getAttribute('data-package');
+            updateOrderSummary();
+            updatePackageFeatures();
+        });
+    });
+}
+
+// Update order summary
+function updateOrderSummary() {
+    const pkg = packages[selectedPackage];
+    const discount = pkg.regularPrice - pkg.earlyBirdPrice;
+    const savings = Math.round((discount / pkg.regularPrice) * 100);
+
+    document.getElementById('selectedPackage').textContent = pkg.name;
+    document.getElementById('regularPrice').textContent = `$${pkg.regularPrice.toFixed(2)}`;
+    document.getElementById('discount').textContent = `-$${discount.toFixed(2)}`;
+    document.getElementById('totalPrice').textContent = `$${pkg.earlyBirdPrice.toFixed(2)}`;
+    document.getElementById('buttonPrice').textContent = `$${pkg.earlyBirdPrice.toFixed(2)}`;
+    document.getElementById('savings').textContent = `${savings}%`;
+}
+
+// Update package features
+function updatePackageFeatures() {
+    const pkg = packages[selectedPackage];
+    const featuresContainer = document.getElementById('package-features');
+
+    featuresContainer.innerHTML = pkg.features.map(feature =>
+        `<div class="flex items-center space-x-3">
+            <i class="fas fa-check text-green-400"></i>
+            <span>${feature}</span>
+        </div>`
+    ).join('');
+}
+
+// Form submission
+function setupFormSubmission() {
+    document.getElementById('preOrderForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const phoneNumber = document.getElementById('phoneNumber').value.trim();
+
+        // Validate phone number format and convert to number
+        // Удаляем все символы кроме цифр
+        const digitsOnly = phoneNumber.replace(/\D/g, '');
+
+        if (digitsOnly.length < 8) {
+            alert('Please enter a valid phone number (minimum 8 digits)');
+            return;
+        }
+
+        const cleanNumber = parseInt(digitsOnly);
+
+        if (isNaN(cleanNumber)) {
+            alert('Please enter a valid phone number');
+            return;
+        }
+
+        const telegramValue = document.getElementById('telegram').value.trim();
+        let tgNickname = null;
+        if (telegramValue) {
+            // Remove @ if present
+            tgNickname = telegramValue.startsWith('@') ? telegramValue.substring(1) : telegramValue;
+        }
+
+        console.log('=== FORM SUBMISSION DEBUG ===');
+        console.log('Selected package:', selectedPackage);
+        console.log('Phone input value:', phoneNumber);
+        console.log('Digits only:', digitsOnly);
+        console.log('Clean number:', cleanNumber);
+        console.log('Email:', document.getElementById('email').value);
+        console.log('Telegram nickname:', tgNickname);
+
+        const formData = {
+            selected_id: selectedPackage,
+            number: digitsOnly,
+            email: document.getElementById('email').value,
+            TGNikName: tgNickname
+        };
+
+        console.log('Final form data:', JSON.stringify(formData, null, 2));
+
+        // Show loading state
+        const submitButton = document.querySelector('button[type="submit"]');
+        const originalText = submitButton.innerHTML;
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
+        submitButton.disabled = true;
+
+        try {
+            const response = await fetch('/insert', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                const result = await response.text(); // Go возвращает "Data saved"
+                showSuccessModal();
+                
+                // Update spots counter
+                const spotsElement = document.getElementById('spots-left');
+                const currentSpots = parseInt(spotsElement.textContent);
+                spotsElement.textContent = Math.max(1, currentSpots - 1);
+            } else {
+                // Получаем текст ошибки от бэкенда
+                const errorText = await response.text();
+                throw new Error(errorText || 'Pre-order failed');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            console.log('Form data sent:', formData); // Debug log
+            alert(`❌ Error: ${error.message}`);
+        } finally {
+            // Reset button
+            submitButton.innerHTML = originalText;
+            submitButton.disabled = false;
+        }
+    });
+}
+
+// Success modal
+function showSuccessModal() {
+    document.getElementById('successModal').classList.remove('hidden');
+}
+
+function closeSuccessModal() {
+    document.getElementById('successModal').classList.add('hidden');
+    // Optionally redirect to thank you page
+    // window.location.href = '/thank-you';
+}
+
+// Popup functions
+const popupTexts = {
+    terms: `
+1. Service Description
+We provide digital products (PDF ebooks) and access to AI-powered Telegram bots. All payments are made in advance and are non-refundable unless a proven technical failure occurs, as determined solely by us.
+
+2. User Rights
+You are granted a limited, non-exclusive, non-transferable license for personal use only. You may not reproduce, distribute, modify, or resell any of the content or services provided.
+
+3. Telegram Bot Access
+We do not guarantee continuous or uninterrupted access to the Telegram bot. Functionality may be affected by external platform limitations or technical maintenance. Usage of the bot is subject to Telegram Inc.'s terms of service and policies.
+
+4. Limitation of Liability
+We are not responsible for:
+- your personal or financial decisions;
+- access disruptions, outages, or service interruptions;
+- any form of financial or non-financial loss.
+
+All content is provided "as is" without warranties of any kind, either express or implied.
+
+5. Jurisdiction and Legal
+Any disputes or claims arising from your use of our services shall be governed by the jurisdiction of the state in which our company is registered.
+
+6. Changes to Terms
+We reserve the right to update these terms at any time without prior notice. Continued use of our services constitutes your acceptance of the modified terms.
+
+7. By proceeding with the payment, you confirm that you have read, understood, and agree to our Terms of Service, Privacy Policy, and Disclaimer. You acknowledge that all purchases are final and that you assume full responsibility for any actions or decisions made based on the content or services provided.
+`,
+
+    privacy: `
+We value your privacy. Any personal information you provide (such as name, email, or payment details) is collected solely to fulfill your orders and enhance service delivery.
+
+We do NOT:
+- sell or share your data with third parties;
+- collect more data than necessary;
+- store your data longer than required for business or legal reasons.
+
+Any data collected via our Telegram bot is used only for functionality and is never shared or stored beyond what is required.
+`,
+
+    disclaimer: `
+All materials provided through our PDF guides, Telegram bots, and website are for informational and educational purposes only. They do not constitute financial, investment, or medical advice.
+
+We are not licensed financial or healthcare professionals. You are solely responsible for any decisions made based on the content we provide.
+
+We make no guarantees of earnings, results, or outcomes. Use of our services is entirely at your own risk.
+
+By accessing or using our services, you accept full responsibility and waive any legal claims against our business, team, or platform.
+`
+};
+
+function openPopup(type) {
+    const popup = document.getElementById('popup');
+    const title = document.getElementById('popup-title');
+    const content = document.getElementById('popup-content');
+
+    title.textContent = type.charAt(0).toUpperCase() + type.slice(1) + ' & Conditions';
+    content.textContent = popupTexts[type];
+
+    popup.classList.remove('hidden');
+}
+
+function closePopup() {
+    document.getElementById('popup').classList.add('hidden');
+}
+
+// Close modals when clicking outside
+document.getElementById('successModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeSuccessModal();
+    }
+});
+
+document.getElementById('popup').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closePopup();
+    }
+});
+</script>
+
+</body>
+</html>

@@ -287,7 +287,7 @@ process.on('SIGINT', () => {
 
 // Start server
 app.listen(PORT, () => {
-    console.log(`🚀 Trade Plus Early Bird Server running on port ${PORT}`);
+    console.log(`🚀 Trader Plus Early Bird Server running on port ${PORT}`);
     console.log(`🌐 Environment: ${NODE_ENV}`);
     console.log(`🌐 Visit: http://localhost:${PORT}`);
     console.log(`📡 API endpoint: http://localhost:${PORT}/api/preorder`);

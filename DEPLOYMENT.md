@@ -1,4 +1,4 @@
-# Trade Plus Deployment Guide
+# Trader Plus Deployment Guide
 
 ## Локальная разработка
 

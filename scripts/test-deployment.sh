@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Testing Trade Plus Deployment..."
+echo "🚀 Testing Trader Plus Deployment..."
 
 # Colors
 RED='\033[0;31m'

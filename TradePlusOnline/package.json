@@ -1,7 +1,7 @@
 {
-  "name": "trade-plus-early-bird",
+  "name": "trader-plus-online",
   "version": "1.0.0",
-  "description": "Early bird marketing system for Trade Plus trading course and AI bot",
+  "description": "Early bird marketing system for Trader Plus trading course and AI bot",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -18,7 +18,7 @@
     "nodejs",
     "express"
   ],
-  "author": "Trade Plus",
+  "author": "Trader Plus",
   "license": "MIT",
   "dependencies": {
     "compression": "^1.8.0",

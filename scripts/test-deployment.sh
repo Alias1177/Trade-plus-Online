@@ -8,8 +8,8 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-# Configuration
-BASE_URL=${1:-"http://localhost"}
+# Configuration - Updated for production server
+BASE_URL=${1:-"http://69.62.112.20"}
 TIMEOUT=10
 
 # Helper functions
@@ -57,18 +57,22 @@ test_api_endpoint() {
     fi
 }
 
+# Production server info
+echo "🌐 Testing Production Server: 69.62.112.20"
+echo
+
 # Main tests
 echo "🔍 Running health checks..."
 echo
 
 # Test frontend
-check_service "Frontend" "$BASE_URL/"
+check_service "Frontend (index.html)" "$BASE_URL/"
 
-# Test backend health
-check_service "Backend Health" "$BASE_URL/health"
+# Test backend health  
+check_service "Backend Health Check" "$BASE_URL/health"
 
 # Test pages
-check_service "Pay Page" "$BASE_URL/pay"
+check_service "Payment Page" "$BASE_URL/pay"
 
 echo
 echo "🧪 Testing API endpoints..."
@@ -89,8 +93,9 @@ else
     echo -e "${RED}✗ FAIL${NC} (HTTP $response)"
 fi
 
-# Test API with valid data
-valid_data='{"selected_id":"Id1","number":"1234567890","email":"test@example.com","TGNikName":"testuser"}'
+# Test API with valid data (using current timestamp for unique email)
+timestamp=$(date +%s)
+valid_data="{\"selected_id\":\"Id1\",\"number\":\"1234567890\",\"email\":\"test-${timestamp}@example.com\",\"TGNikName\":\"testuser${timestamp}\"}"
 test_api_endpoint "/insert" "POST" "$valid_data"
 
 # Test API with duplicate email (should fail)
@@ -142,9 +147,11 @@ else
 fi
 
 echo
-echo "🏁 Deployment test completed!"
+echo "🏁 Deployment test completed for production server!"
 echo
-echo "💡 Tips:"
+echo "💡 Server Management Commands:"
+echo "  • SSH to server: ssh root@69.62.112.20"
 echo "  • Monitor logs: docker compose -f docker-compose.prod.yml logs -f"
-echo "  • Check health: curl $BASE_URL/health"
-echo "  • View metrics: docker stats" 
+echo "  • Check health: curl http://69.62.112.20/health"
+echo "  • View containers: docker ps" 
+echo "  • Restart services: docker compose -f docker-compose.prod.yml restart" 

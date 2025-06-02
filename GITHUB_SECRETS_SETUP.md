@@ -87,4 +87,23 @@ SSH_KEY = [твой приватный ключ]
 - Меньше секретов для управления
 - Легче обновлять конфигурацию
 - Один источник правды для всех переменных
-- Проще синхронизировать с локальной разработкой 
+- Проще синхронизировать с локальной разработкой
+
+## 📝 **Создание .env.prod файла**
+
+Создай файл `.env.prod` в корне проекта с содержимым:
+
+```bash
+DB_USER=traderplus_user
+DB_PASSWORD=0J-zaDcQy9JHH)9WSHbj
+DB_NAME=traderplus_db
+DB_CONNECTION_STRING=postgresql://traderplus_user:0J-zaDcQy9JHH)9WSHbj@db:5432/traderplus_db?sslmode=disable
+
+EMAIL_PASSWORD=Lp4p1f2vQvdwgxmefjND
+EMAIL_ADDRESS=four-x-teams@mail.ru
+SMTP_HOST=smtp.mail.ru
+SMTP_PORT=465
+
+FRONTEND_PORT=80
+PORT=8080
+``` 

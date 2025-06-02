@@ -5,6 +5,7 @@ import (
 	"Strategy/internal/taker"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -12,7 +13,16 @@ import (
 )
 
 func main() {
-	cfg, err := config.Load(".env")
+	// Пробуем загрузить конфиг - сначала prod, потом dev
+	var cfg *config.Config
+	var err error
+
+	if _, err := os.Stat(".env.prod"); err == nil {
+		cfg, err = config.Load(".env.prod")
+	} else {
+		cfg, err = config.Load(".env")
+	}
+
 	if err != nil {
 		log.Fatal("trouble with config")
 	}
@@ -27,7 +37,7 @@ func main() {
 
 	// Используем официальный CORS middleware
 	r.Use(cors.Handler(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:3000"},
+		AllowedOrigins:   []string{"*"}, // Разрешаем все источники для продакшена через nginx
 		AllowedMethods:   []string{"GET", "POST", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
 		ExposedHeaders:   []string{"Link"},
@@ -41,6 +51,7 @@ func main() {
 	})
 	r.Post("/insert", handler.InsertIntoDb)
 	r.Get("/health", handler.Health)
+	r.Get("/records", handler.GetAllRecords)
 
 	log.Fatal(http.ListenAndServe(":"+cfg.Port, r))
 }

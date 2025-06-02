@@ -621,19 +621,12 @@ function setupFormSubmission() {
 
         const phoneNumber = document.getElementById('phoneNumber').value.trim();
 
-        // Validate phone number format and convert to number
+        // Validate phone number format
         // Удаляем все символы кроме цифр
         const digitsOnly = phoneNumber.replace(/\D/g, '');
 
         if (digitsOnly.length < 8) {
             alert('Please enter a valid phone number (minimum 8 digits)');
-            return;
-        }
-
-        const cleanNumber = parseInt(digitsOnly);
-
-        if (isNaN(cleanNumber)) {
-            alert('Please enter a valid phone number');
             return;
         }
 
@@ -648,7 +641,6 @@ function setupFormSubmission() {
         console.log('Selected package:', selectedPackage);
         console.log('Phone input value:', phoneNumber);
         console.log('Digits only:', digitsOnly);
-        console.log('Clean number:', cleanNumber);
         console.log('Email:', document.getElementById('email').value);
         console.log('Telegram nickname:', tgNickname);
 

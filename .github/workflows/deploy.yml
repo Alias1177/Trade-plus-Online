@@ -123,20 +123,26 @@ jobs:
           
           # Create prod.env file from PROD_ENV_FILE secret
           echo "Creating prod.env file..."
-          cat > prod.env << 'EOF'
-          ${{ secrets.PROD_ENV_FILE }}
-          EOF
+          echo '${{ secrets.PROD_ENV_FILE }}' > prod.env
           
-          # Verify prod.env was created
+          # Verify prod.env was created properly
           if [ ! -f "prod.env" ]; then
             echo "❌ Error: prod.env file was not created!"
             exit 1
           fi
           
           echo "✅ prod.env file created successfully"
+          echo "📄 File size: $(wc -l < prod.env) lines"
           
-          # Deploy with zero downtime
-          docker compose -f docker-compose.prod.yml up -d --remove-orphans
+          # Stop existing containers
+          docker compose -f docker-compose.prod.yml down || true
+          
+          # Deploy with new configuration
+          docker compose -f docker-compose.prod.yml --env-file prod.env up -d --remove-orphans
+          
+          # Wait for services to be healthy
+          echo "⏳ Waiting for services to start..."
+          sleep 30
           
           # Clean up old images and containers
           docker image prune -f
@@ -144,4 +150,8 @@ jobs:
           
           # Show deployment status
           echo "🚀 Deployment completed!"
-          docker compose -f docker-compose.prod.yml ps 
+          docker compose -f docker-compose.prod.yml ps
+          
+          # Test API health
+          echo "🔍 Testing API health..."
+          curl -f http://localhost/health || echo "⚠️ Health check failed" 

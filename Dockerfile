@@ -3,8 +3,8 @@ FROM golang:1.24-alpine AS builder
 
 WORKDIR /app
 
-# Install git for go modules
-RUN apk --no-cache add git ca-certificates
+# Install dependencies
+RUN apk --no-cache add git ca-certificates wget
 
 # Copy go mod files
 COPY go.mod go.sum ./
@@ -19,29 +19,30 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main ./cmd/main.g
 # Final stage
 FROM alpine:latest
 
-# Install ca-certificates for HTTPS requests
-RUN apk --no-cache add ca-certificates
+# Install dependencies
+RUN apk --no-cache add ca-certificates wget
 
-# Create a user for security
+# Create application directory
+WORKDIR /app
+
+# Create non-root user
 RUN adduser -D -s /bin/sh appuser
 
-WORKDIR /root/
-
-# Copy the binary from builder stage
+# Copy the binary and required files
 COPY --from=builder /app/main .
 COPY --from=builder /app/latter.html .
 
-# Change file ownership
-RUN chown -R appuser:appuser /root/
+# Set ownership
+RUN chown -R appuser:appuser /app
 
-# Switch to the unprivileged user
+# Switch to non-root user
 USER appuser
 
 # Expose port
 EXPOSE 8080
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD wget --no-verbose --tries=1 --spider http://localhost:8080/health || exit 1
 
 # Run the application

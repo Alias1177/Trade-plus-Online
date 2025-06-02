@@ -1,5 +1,80 @@
 # 🔐 GitHub Secrets Setup для Trader Plus
 
+## Обновленная продакшн конфигурация
+
+### 📝 **Создание prod.env файла**
+
+Создай файл `prod.env` в корне проекта с содержимым:
+
+```bash
+# Database Configuration
+DB_USER=traderplus_user
+DB_PASSWORD=0J-zaDcQy9JHH)9WSHbj
+DB_NAME=traderplus_db
+DB_CONNECTION_STRING=postgresql://traderplus_user:0J-zaDcQy9JHH)9WSHbj@db:5432/traderplus_db?sslmode=disable
+
+# Email Configuration  
+EMAIL_PASSWORD=Lp4p1f2vQvdwgxmefjND
+EMAIL_ADDRESS=four-x-teams@mail.ru
+SMTP_HOST=smtp.mail.ru
+SMTP_PORT=465
+
+# Server Configuration
+FRONTEND_PORT=80
+PORT=8080
+```
+
+### 🚀 **GitHub Secrets (обязательные)**
+
+Создай следующие секреты в репозитории:
+
+#### SSH подключение:
+```
+HOST = 69.62.112.20
+USERNAME = root  
+PORT = 22
+SSH_KEY = [твой SSH ключ]
+```
+
+#### Единый секрет конфигурации:
+```
+PROD_ENV_FILE = 
+DB_USER=traderplus_user
+DB_PASSWORD=0J-zaDcQy9JHH)9WSHbj
+DB_NAME=traderplus_db
+DB_CONNECTION_STRING=postgresql://traderplus_user:0J-zaDcQy9JHH)9WSHbj@db:5432/traderplus_db?sslmode=disable
+EMAIL_PASSWORD=Lp4p1f2vQvdwgxmefjND
+EMAIL_ADDRESS=four-x-teams@mail.ru
+SMTP_HOST=smtp.mail.ru
+SMTP_PORT=465
+FRONTEND_PORT=80
+PORT=8080
+```
+
+### 🔧 **Изменения в проекте:**
+
+✅ **Упрощена конфигурация** - только prod.env  
+✅ **Улучшен email отправка** - детальное логгирование  
+✅ **Рефакторинг API** - добавлены /api/ endpoints  
+✅ **Улучшен nginx** - оптимизирован для продакшена  
+✅ **Валидация конфига** - проверка обязательных параметров
+
+### 📂 **Структура проекта:**
+```
+/
+├── prod.env              # Продакшн конфигурация
+├── latter.html           # Email шаблон  
+├── cmd/main.go          # Entry point
+├── config/config.go     # Конфигурация
+├── internal/taker/      # Бизнес логика
+└── TradePlusOnline/     # Frontend
+```
+
+### 🚨 **Важно:**
+- Файл `prod.env` должен быть в `.gitignore`
+- Все секреты только в GitHub Secrets
+- Email конфигурация проверена для Mail.ru SMTP
+
 ## Перейди в настройки репозитория
 1. **Репозиторий**: https://github.com/Alias1177/Trade-plus-Online
 2. **Settings** → **Secrets and variables** → **Actions**

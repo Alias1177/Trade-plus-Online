@@ -53,10 +53,12 @@ func loadHTML(filename string) (string, error) {
 
 // Отправка HTML email через Mail.ru с TLS
 func (h *Handler) sendEmail(to, subject, body string) error {
-	from := h.cfg.Mail
-	password := h.cfg.Secret
+	from := h.cfg.EmailAddress
+	password := h.cfg.EmailPassword
 	smtpHost := h.cfg.SmtpHost
 	smtpPort := h.cfg.SmtpPort
+
+	log.Printf("🔧 Email config - From: %s, To: %s, SMTP: %s:%s", from, to, smtpHost, smtpPort)
 
 	msg := fmt.Sprintf("From: %s\nTo: %s\nSubject: %s\nContent-Type: text/html; charset=UTF-8\n\n%s",
 		from, to, subject, body)
@@ -71,42 +73,55 @@ func (h *Handler) sendEmail(to, subject, body string) error {
 
 	// Для Mail.ru используем правильный порт и подключение
 	if smtpPort == "465" {
+		log.Printf("📧 Using SSL/TLS connection on port 465")
 		// SSL/TLS подключение для порта 465
 		conn, err := tls.Dial("tcp", smtpHost+":"+smtpPort, tlsconfig)
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to connect to SMTP server: %w", err)
 		}
 		defer conn.Close()
 
 		client, err := smtp.NewClient(conn, smtpHost)
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to create SMTP client: %w", err)
 		}
 		defer client.Quit()
 
 		if err = client.Auth(auth); err != nil {
-			return err
+			return fmt.Errorf("SMTP authentication failed: %w", err)
 		}
 
 		if err = client.Mail(from); err != nil {
-			return err
+			return fmt.Errorf("failed to set sender: %w", err)
 		}
 
 		if err = client.Rcpt(to); err != nil {
-			return err
+			return fmt.Errorf("failed to set recipient: %w", err)
 		}
 
 		writer, err := client.Data()
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to get data writer: %w", err)
 		}
 		defer writer.Close()
 
 		_, err = writer.Write([]byte(msg))
-		return err
+		if err != nil {
+			return fmt.Errorf("failed to write message: %w", err)
+		}
+
+		log.Printf("✅ Email sent successfully via SSL/TLS")
+		return nil
 	} else {
+		log.Printf("📧 Using STARTTLS connection on port %s", smtpPort)
 		// STARTTLS для порта 587
-		return smtp.SendMail(smtpHost+":"+smtpPort, auth, from, []string{to}, []byte(msg))
+		err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, []string{to}, []byte(msg))
+		if err != nil {
+			return fmt.Errorf("failed to send email via STARTTLS: %w", err)
+		}
+
+		log.Printf("✅ Email sent successfully via STARTTLS")
+		return nil
 	}
 }
 
@@ -194,7 +209,7 @@ func (h *Handler) InsertIntoDb(w http.ResponseWriter, r *http.Request) {
 
 		log.Printf("✅ HTML загружен успешно, размер: %d символов", len(htmlBody))
 		log.Printf("📧 Настройки SMTP: %s:%s", h.cfg.SmtpHost, h.cfg.SmtpPort)
-		log.Printf("📧 От: %s, К: %s", h.cfg.Mail, data.Email)
+		log.Printf("📧 От: %s, К: %s", h.cfg.EmailAddress, data.Email)
 
 		err = h.sendEmail(data.Email, "Уведомление", htmlBody)
 		if err != nil {

@@ -18,7 +18,8 @@ main
 # Go workspace file
 go.work
 
-# Environment variables
+# Environment variables - PRODUCTION
+prod.env
 .env
 .env.local
 .env.development.local

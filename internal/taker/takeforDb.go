@@ -56,42 +56,49 @@ func (h *Handler) sendEmail(to, subject, body string) error {
 
 	// Настройка TLS для Mail.ru
 	tlsconfig := &tls.Config{
-		InsecureSkipVerify: true,
+		InsecureSkipVerify: false,
 		ServerName:         smtpHost,
 	}
 
-	conn, err := tls.Dial("tcp", smtpHost+":"+smtpPort, tlsconfig)
-	if err != nil {
-		return err
-	}
-	defer conn.Close()
+	// Для Mail.ru используем правильный порт и подключение
+	if smtpPort == "465" {
+		// SSL/TLS подключение для порта 465
+		conn, err := tls.Dial("tcp", smtpHost+":"+smtpPort, tlsconfig)
+		if err != nil {
+			return err
+		}
+		defer conn.Close()
 
-	client, err := smtp.NewClient(conn, smtpHost)
-	if err != nil {
-		return err
-	}
-	defer client.Quit()
+		client, err := smtp.NewClient(conn, smtpHost)
+		if err != nil {
+			return err
+		}
+		defer client.Quit()
 
-	if err = client.Auth(auth); err != nil {
-		return err
-	}
+		if err = client.Auth(auth); err != nil {
+			return err
+		}
 
-	if err = client.Mail(from); err != nil {
-		return err
-	}
+		if err = client.Mail(from); err != nil {
+			return err
+		}
 
-	if err = client.Rcpt(to); err != nil {
-		return err
-	}
+		if err = client.Rcpt(to); err != nil {
+			return err
+		}
 
-	writer, err := client.Data()
-	if err != nil {
-		return err
-	}
-	defer writer.Close()
+		writer, err := client.Data()
+		if err != nil {
+			return err
+		}
+		defer writer.Close()
 
-	_, err = writer.Write([]byte(msg))
-	return err
+		_, err = writer.Write([]byte(msg))
+		return err
+	} else {
+		// STARTTLS для порта 587
+		return smtp.SendMail(smtpHost+":"+smtpPort, auth, from, []string{to}, []byte(msg))
+	}
 }
 
 func (h *Handler) InsertIntoDb(w http.ResponseWriter, r *http.Request) {
@@ -167,7 +174,7 @@ func (h *Handler) InsertIntoDb(w http.ResponseWriter, r *http.Request) {
 
 	// Отправляем HTML из файла
 	go func() {
-		htmlBody, err := loadHTML("../latter.html")
+		htmlBody, err := loadHTML("latter.html")
 		if err != nil {
 			log.Printf("Ошибка загрузки HTML: %v", err)
 			return

@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Скрипт для генерации содержимого секрета ENV_PROD_FILE
+# Скопируй этот вывод и вставь в GitHub Secrets как ENV_PROD_FILE
+
+echo "=== Содержимое для GitHub Secret: ENV_PROD_FILE ==="
+echo ""
+echo "DB_USER=traderplus_user"
+echo "DB_PASSWORD=0J-zaDcQy9JHH)9WSHbj"
+echo "DB_NAME=traderplus_db"
+echo "EMAIL_PASSWORD=Lp4p1f2vQvdwgxmefjND"
+echo "EMAIL_ADDRESS=four-x-teams@mail.ru"
+echo "SMTP_HOST=smtp.mail.ru"
+echo "SMTP_PORT=465"
+echo "FRONTEND_PORT=80"
+echo "PORT=8080"
+echo ""
+echo "=== Скопируй строки выше (без заголовков) в GitHub Secret ==="
+echo ""
+echo "После создания секрета ENV_PROD_FILE можешь удалить эти отдельные секреты:"
+echo "- DB_USER"
+echo "- DB_PASSWORD"
+echo "- DB_NAME"
+echo "- EMAIL_PASSWORD"
+echo "- EMAIL_ADDRESS"
+echo "- SMTP_HOST"
+echo "- SMTP_PORT"
+echo ""
+echo "Оставь только SSH секреты:"
+echo "- HOST"
+echo "- USERNAME"
+echo "- SSH_KEY"
+echo "- PORT" 

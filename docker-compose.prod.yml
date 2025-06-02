@@ -29,8 +29,8 @@ services:
     environment:
       PORT: 8080
       DB_CONNECTION_STRING: postgresql://${DB_USER:-user}:${DB_PASSWORD:-password}@db:5432/${DB_NAME:-mydb}?sslmode=disable
-      SECRET: ${EMAIL_PASSWORD}
-      MAIL: ${EMAIL_ADDRESS}
+      EMAIL_PASSWORD: ${EMAIL_PASSWORD}
+      EMAIL_ADDRESS: ${EMAIL_ADDRESS}
       SMTP_HOST: ${SMTP_HOST:-smtp.mail.ru}
       SMTP_PORT: ${SMTP_PORT:-465}
     depends_on:

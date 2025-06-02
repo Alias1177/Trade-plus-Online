@@ -7,8 +7,8 @@ import (
 type Config struct {
 	Port               string `env:"PORT" envDefault:"8080"`
 	DbConnectionString string `env:"DB_CONNECTION_STRING"`
-	Secret             string `env:"SECRET"`
-	Mail               string `env:"MAIL"`
+	Secret             string `env:"EMAIL_PASSWORD"`
+	Mail               string `env:"EMAIL_ADDRESS"`
 	SmtpHost           string `env:"SMTP_HOST"`
 	SmtpPort           string `env:"SMTP_PORT"`
 }

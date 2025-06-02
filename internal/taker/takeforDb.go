@@ -27,12 +27,12 @@ type RequestData struct {
 }
 
 type DatabaseRecord struct {
-	Number    string `json:"number" db:"Number"`
-	Email     string `json:"email" db:"Email"`
-	TGNikName string `json:"tg_nickname" db:"TGNikName"`
-	Id1       string `json:"id1" db:"Id1"`
-	Id2       string `json:"id2" db:"Id2"`
-	Id3       string `json:"id3" db:"Id3"`
+	Number    string `json:"number" db:"number"`
+	Email     string `json:"email" db:"email"`
+	TGNikName string `json:"tg_nickname" db:"tgnikname"`
+	Id1       string `json:"id1" db:"id1"`
+	Id2       string `json:"id2" db:"id2"`
+	Id3       string `json:"id3" db:"id3"`
 }
 
 func New(cfg *config.Config, db *sqlx.DB) *Handler {
@@ -150,7 +150,7 @@ func (h *Handler) InsertIntoDb(w http.ResponseWriter, r *http.Request) {
 
 	// Проверяем дубликат email
 	var existingEmail string
-	err := h.sqlx.Get(&existingEmail, "SELECT Email FROM send WHERE LOWER(Email) = LOWER($1) LIMIT 1", data.Email)
+	err := h.sqlx.Get(&existingEmail, "SELECT email FROM send WHERE LOWER(email) = LOWER($1) LIMIT 1", data.Email)
 	if err == nil {
 		// Email уже существует
 		log.Printf("Duplicate email attempt: %s", data.Email)
@@ -160,7 +160,7 @@ func (h *Handler) InsertIntoDb(w http.ResponseWriter, r *http.Request) {
 
 	// Проверяем дубликат номера телефона
 	var existingNumber string
-	err = h.sqlx.Get(&existingNumber, "SELECT Number FROM send WHERE Number = $1 LIMIT 1", data.Number)
+	err = h.sqlx.Get(&existingNumber, "SELECT number FROM send WHERE number = $1 LIMIT 1", data.Number)
 	if err == nil {
 		// Номер уже существует
 		log.Printf("Duplicate phone number attempt: %s", data.Number)
@@ -186,7 +186,7 @@ func (h *Handler) InsertIntoDb(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = h.sqlx.Exec("INSERT INTO send (Number, Email, TGNikName, Id1, Id2, Id3) VALUES($1, $2, $3, $4, $5, $6)",
+	_, err = h.sqlx.Exec("INSERT INTO send (number, email, tgnikname, id1, id2, id3) VALUES($1, $2, $3, $4, $5, $6)",
 		data.Number, data.Email, data.TGNikName, id1Value, id2Value, id3Value)
 	if err != nil {
 		log.Printf("Database error: %v", err)
@@ -233,7 +233,7 @@ func (h *Handler) Health(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) GetAllRecords(w http.ResponseWriter, r *http.Request) {
 	var records []DatabaseRecord
 
-	err := h.sqlx.Select(&records, "SELECT Number, Email, TGNikName, Id1, Id2, Id3 FROM send ORDER BY Email")
+	err := h.sqlx.Select(&records, "SELECT number, email, tgnikname, id1, id2, id3 FROM send ORDER BY email")
 	if err != nil {
 		log.Printf("Database error getting records: %v", err)
 		http.Error(w, "Database error", http.StatusInternalServerError)

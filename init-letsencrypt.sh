@@ -43,29 +43,26 @@ echo -e "${YELLOW}📋 Downloading recommended TLS parameters...${NC}"
 curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf > "$DATA_PATH/conf/options-ssl-nginx.conf"
 curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/certbot/ssl-dhparams.pem > "$DATA_PATH/conf/ssl-dhparams.pem"
 
-# Create dummy certificate
-echo -e "${YELLOW}🔧 Creating dummy certificate for $DOMAIN...${NC}"
-path="/etc/letsencrypt/live/$DOMAIN"
-mkdir -p "$DATA_PATH/conf/live/$DOMAIN"
+# Stop any existing frontend
+echo -e "${YELLOW}🛑 Stopping existing containers...${NC}"
+docker compose -f docker-compose.prod.yml stop frontend || true
 
-docker run --rm -v "$DATA_PATH/conf:/etc/letsencrypt" --entrypoint "" \
-  certbot/certbot:latest sh -c "
-    openssl req -x509 -nodes -newkey rsa:2048 -days 1 \
-    -keyout '$path/privkey.pem' \
-    -out '$path/fullchain.pem' \
-    -subj '/CN=localhost'
-    cp '$path/fullchain.pem' '$path/chain.pem'
-"
+# Use temporary nginx config for certificate generation
+echo -e "${YELLOW}🔧 Switching to temporary HTTP-only nginx config...${NC}"
+cp TradePlusOnline/nginx.conf TradePlusOnline/nginx.conf.backup
+cp TradePlusOnline/nginx-temp.conf TradePlusOnline/nginx.conf
 
-echo -e "${YELLOW}🚀 Starting nginx with dummy certificate...${NC}"
+# Rebuild frontend with temporary config
+echo -e "${YELLOW}🔨 Rebuilding frontend container...${NC}"
+docker compose -f docker-compose.prod.yml build --no-cache frontend
 
-# Start nginx
-cd /opt/tradeplus
+# Start nginx with temporary config
+echo -e "${YELLOW}🚀 Starting nginx with temporary HTTP config...${NC}"
 docker compose -f docker-compose.prod.yml --env-file prod.env up -d frontend
 
 # Wait for nginx to start
 echo -e "${YELLOW}⏳ Waiting for nginx to start...${NC}"
-sleep 10
+sleep 15
 
 # Check nginx status
 if ! docker compose -f docker-compose.prod.yml exec frontend nginx -t; then
@@ -73,11 +70,22 @@ if ! docker compose -f docker-compose.prod.yml exec frontend nginx -t; then
     exit 1
 fi
 
-# Delete dummy certificate
-echo -e "${YELLOW}🗑️ Deleting dummy certificate...${NC}"
-rm -rf "$DATA_PATH/conf/live/$DOMAIN"
+# Test that challenge directory is accessible
+echo -e "${YELLOW}🧪 Testing challenge directory access...${NC}"
+echo "test" | docker compose -f docker-compose.prod.yml exec -T frontend tee /var/www/certbot/test.txt > /dev/null
+if curl -f -s "http://$DOMAIN/.well-known/acme-challenge/test.txt" | grep -q "test"; then
+    echo -e "${GREEN}✅ Challenge directory is accessible${NC}"
+else
+    echo -e "${RED}❌ Challenge directory is not accessible${NC}"
+    echo -e "${YELLOW}🔍 Debugging nginx configuration...${NC}"
+    docker compose -f docker-compose.prod.yml exec frontend nginx -T
+    exit 1
+fi
 
-# Request real certificate
+# Clean up test file
+docker compose -f docker-compose.prod.yml exec frontend rm -f /var/www/certbot/test.txt
+
+# Request certificate
 echo -e "${YELLOW}🔐 Requesting SSL certificate for $DOMAIN...${NC}"
 
 # Set up staging or production
@@ -108,19 +116,41 @@ docker run --rm \
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}✅ SSL certificate obtained successfully!${NC}"
     
-    # Restart nginx to use the real certificate
-    echo -e "${YELLOW}🔄 Restarting nginx with real certificate...${NC}"
-    docker compose -f docker-compose.prod.yml restart frontend
+    # Restore original nginx config with HTTPS
+    echo -e "${YELLOW}🔄 Restoring HTTPS nginx configuration...${NC}"
+    cp TradePlusOnline/nginx.conf.backup TradePlusOnline/nginx.conf
+    
+    # Rebuild frontend with HTTPS config
+    echo -e "${YELLOW}🔨 Rebuilding frontend with HTTPS config...${NC}"
+    docker compose -f docker-compose.prod.yml build --no-cache frontend
+    
+    # Restart nginx with HTTPS
+    echo -e "${YELLOW}🔄 Starting nginx with HTTPS configuration...${NC}"
+    docker compose -f docker-compose.prod.yml --env-file prod.env up -d frontend
+    
+    # Wait for restart
+    sleep 10
+    
+    # Test HTTPS
+    echo -e "${YELLOW}🧪 Testing HTTPS connection...${NC}"
+    if curl -f -s -I "https://$DOMAIN" > /dev/null; then
+        echo -e "${GREEN}✅ HTTPS is working!${NC}"
+    else
+        echo -e "${YELLOW}⚠️ HTTPS test failed, but certificates are installed${NC}"
+    fi
     
     echo -e "${GREEN}🎉 HTTPS setup completed!${NC}"
-    echo -e "${GREEN}🌐 Your site is now available at: https://$DOMAIN${NC}"
+    echo -e "${GREEN}🌐 Your site should now be available at: https://$DOMAIN${NC}"
 else
     echo -e "${RED}❌ Failed to obtain SSL certificate${NC}"
     echo -e "${YELLOW}💡 Try running with STAGING=1 for testing${NC}"
+    
+    # Restore original config even on failure
+    cp TradePlusOnline/nginx.conf.backup TradePlusOnline/nginx.conf
     exit 1
 fi
 
 echo -e "${GREEN}📋 Next steps:${NC}"
-echo -e "1. Update your DNS to point to this server"
-echo -e "2. Test your site: https://$DOMAIN"
-echo -e "3. Set up auto-renewal with: ./setup-ssl-renewal.sh" 
+echo -e "1. Test your site: https://$DOMAIN"
+echo -e "2. Set up auto-renewal with: ./setup-ssl-renewal.sh"
+echo -e "3. Check SSL rating: https://www.ssllabs.com/ssltest/analyze.html?d=$DOMAIN" 

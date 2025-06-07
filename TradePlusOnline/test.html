@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Test Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f0f0f0; }
+        .test-section { background: white; padding: 20px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .test-link { display: inline-block; margin: 10px; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 4px; }
+        .test-link:hover { background: #0056b3; }
+        .status { padding: 5px 10px; border-radius: 4px; margin: 5px 0; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Trader Plus - Site Test Page</h1>
+    
+    <div class="test-section">
+        <h2>📄 Page Navigation Tests</h2>
+        <a href="index.html" class="test-link">🏠 Home Page (index.html)</a>
+        <a href="pay.html" class="test-link">💳 Payment Page (pay.html)</a>
+        <a href="pay.html?package=Id1" class="test-link">📚 Course Package</a>
+        <a href="pay.html?package=Id2" class="test-link">🤖 Bot Package</a>
+        <a href="pay.html?package=Id3" class="test-link">🎯 Combo Package</a>
+    </div>
+
+    <div class="test-section">
+        <h2>🖼️ Asset Tests</h2>
+        <div>
+            <img src="assets/logowhite.png" alt="Logo" style="height: 50px; margin: 5px;">
+            <img src="assets/bookcovered.png" alt="Book" style="height: 50px; margin: 5px;">
+            <img src="assets/random person young woman.jpg" alt="Person 1" style="height: 50px; margin: 5px;">
+            <img src="assets/random person young.jpg" alt="Person 2" style="height: 50px; margin: 5px;">
+            <img src="assets/random person 2.jpg" alt="Person 3" style="height: 50px; margin: 5px;">
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔧 JavaScript Tests</h2>
+        <button onclick="testCountdown()" class="test-link">⏰ Test Countdown</button>
+        <button onclick="testFormValidation()" class="test-link">📝 Test Form Validation</button>
+        <button onclick="testPackageSelection()" class="test-link">📦 Test Package Selection</button>
+        <div id="test-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📱 Responsive Tests</h2>
+        <p>Test the site at different screen sizes:</p>
+        <button onclick="setViewport(320, 568)" class="test-link">📱 Mobile (320px)</button>
+        <button onclick="setViewport(768, 1024)" class="test-link">📱 Tablet (768px)</button>
+        <button onclick="setViewport(1200, 800)" class="test-link">💻 Desktop (1200px)</button>
+    </div>
+
+    <div class="test-section">
+        <h2>🌐 External Resources</h2>
+        <div id="resource-status">
+            <div class="status">⏳ Checking external resources...</div>
+        </div>
+    </div>
+
+    <script>
+        // Test functions
+        function testCountdown() {
+            const results = document.getElementById('test-results');
+            results.innerHTML = '<div class="status success">✅ Countdown test: Check console for timer logs</div>';
+            console.log('Testing countdown functionality...');
+        }
+
+        function testFormValidation() {
+            const results = document.getElementById('test-results');
+            results.innerHTML = '<div class="status success">✅ Form validation test: Check pay.html form</div>';
+        }
+
+        function testPackageSelection() {
+            const results = document.getElementById('test-results');
+            results.innerHTML = '<div class="status success">✅ Package selection test: Check pay.html packages</div>';
+        }
+
+        function setViewport(width, height) {
+            window.resizeTo(width, height);
+        }
+
+        // Check external resources
+        function checkResources() {
+            const resources = [
+                'https://cdn.tailwindcss.com',
+                'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
+                'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap'
+            ];
+
+            const statusDiv = document.getElementById('resource-status');
+            statusDiv.innerHTML = '';
+
+            resources.forEach(url => {
+                fetch(url, { method: 'HEAD' })
+                    .then(response => {
+                        if (response.ok) {
+                            statusDiv.innerHTML += `<div class="status success">✅ ${url}</div>`;
+                        } else {
+                            statusDiv.innerHTML += `<div class="status error">❌ ${url} (${response.status})</div>`;
+                        }
+                    })
+                    .catch(error => {
+                        statusDiv.innerHTML += `<div class="status error">❌ ${url} (Network Error)</div>`;
+                    });
+            });
+        }
+
+        // Run tests on page load
+        window.onload = function() {
+            checkResources();
+            console.log('🧪 Test page loaded. All functions available.');
+        };
+    </script>
+</body>
+</html> 

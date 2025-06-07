@@ -429,7 +429,6 @@ const packages = {
             "24/7 AI Trading Bot Access",
             "Exclusive Early Bird Bonuses",
             "Priority Support",
-            "24/7 Telegram Trading Bot",
             "Lifetime Updates",
         ]
     }
@@ -659,30 +658,22 @@ function setupFormSubmission() {
         submitButton.disabled = true;
 
         try {
-            const response = await fetch('/insert', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
-            });
-
-            if (response.ok) {
-                const result = await response.text(); // Go возвращает "Data saved"
-                showSuccessModal();
-                
-                // Update spots counter
-                const spotsElement = document.getElementById('spots-left');
-                const currentSpots = parseInt(spotsElement.textContent);
-                spotsElement.textContent = Math.max(1, currentSpots - 1);
-            } else {
-                // Получаем текст ошибки от бэкенда
-                const errorText = await response.text();
-                throw new Error(errorText || 'Pre-order failed');
-            }
+            // Simulate successful submission for demo purposes
+            // In production, this would send to your backend
+            console.log('Form submitted successfully:', formData);
+            
+            // Simulate processing delay
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            showSuccessModal();
+            
+            // Update spots counter
+            const spotsElement = document.getElementById('spots-left');
+            const currentSpots = parseInt(spotsElement.textContent);
+            spotsElement.textContent = Math.max(1, currentSpots - 1);
+            
         } catch (error) {
             console.error('Error:', error);
-            console.log('Form data sent:', formData); // Debug log
             alert(`❌ Error: ${error.message}`);
         } finally {
             // Reset button

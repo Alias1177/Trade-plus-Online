@@ -38,12 +38,14 @@ jobs:
       uses: actions/checkout@v4
     
     - name: Deploy to server
-      uses: appleboy/ssh-action@v1.0.0
+      uses: appleboy/ssh-action@v1.0.3
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.PORT }}
+        timeout: 30s
+        command_timeout: 10m
         script: |
           cd /opt/tradeplus
           

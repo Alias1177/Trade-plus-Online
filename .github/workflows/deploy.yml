@@ -49,8 +49,9 @@ jobs:
         script: |
           cd /opt/tradeplus
           
-          # Pull latest code
-          git pull origin main
+          # Pull latest code (force)
+          git fetch origin main
+          git reset --hard origin/main
           
           # Create prod.env file from PROD_ENV_FILE secret
           echo "Creating prod.env file..."

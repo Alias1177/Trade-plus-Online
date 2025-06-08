@@ -32,6 +32,9 @@ COPY --from=builder /app/main .
 # Copy HTML template to working directory
 COPY --from=builder /app/latter.html .
 
+# Copy prod.env if it exists
+COPY --from=builder /app/prod.env ./prod.env
+
 # Make binary executable
 RUN chmod +x ./main
 

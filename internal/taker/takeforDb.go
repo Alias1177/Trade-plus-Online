@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"net/smtp"
+	"time"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
@@ -254,14 +255,43 @@ func (h *Handler) GetAllRecords(w http.ResponseWriter, r *http.Request) {
 }
 
 func Connect(cfg *config.Config) *sqlx.DB {
-	conn, err := sqlx.Connect("postgres", cfg.DbConnectionString)
-	if err != nil {
-		log.Fatal("error connect to db")
+	// Пытаемся подключиться с повторными попытками
+	maxRetries := 10
+	retryInterval := 5 // секунд
+
+	for attempt := 1; attempt <= maxRetries; attempt++ {
+		log.Printf("🔄 Database connection attempt %d/%d...", attempt, maxRetries)
+
+		conn, err := sqlx.Connect("postgres", cfg.DbConnectionString)
+		if err != nil {
+			log.Printf("❌ Connection attempt %d failed: %v", attempt, err)
+			if attempt == maxRetries {
+				log.Fatal("❌ Failed to connect to database after all attempts")
+			}
+			log.Printf("⏳ Retrying in %d seconds...", retryInterval)
+			time.Sleep(time.Duration(retryInterval) * time.Second)
+			continue
+		}
+
+		// Проверяем что соединение работает
+		if err = conn.Ping(); err != nil {
+			log.Printf("❌ Ping attempt %d failed: %v", attempt, err)
+			conn.Close()
+			if attempt == maxRetries {
+				log.Fatal("❌ Failed to ping database after all attempts")
+			}
+			log.Printf("⏳ Retrying in %d seconds...", retryInterval)
+			time.Sleep(time.Duration(retryInterval) * time.Second)
+			continue
+		}
+
+		log.Printf("✅ Database connected successfully on attempt %d", attempt)
+		return conn
 	}
-	if err = conn.Ping(); err != nil {
-		log.Fatal("error ping to db")
-	}
-	return conn
+
+	// Этот код никогда не должен выполниться, но Go требует return
+	log.Fatal("❌ Unexpected error in database connection logic")
+	return nil
 }
 
 func (h *Handler) Close() error {

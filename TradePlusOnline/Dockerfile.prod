@@ -17,8 +17,8 @@ FROM nginx:alpine
 COPY --from=builder /app/*.html /usr/share/nginx/html/
 COPY --from=builder /app/assets /usr/share/nginx/html/assets/
 
-# Copy production nginx config (temporary without SSL)
-COPY nginx-prod-temp.conf /etc/nginx/nginx.conf
+# Copy production nginx config with HTTPS support
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expose ports
 EXPOSE 80 443

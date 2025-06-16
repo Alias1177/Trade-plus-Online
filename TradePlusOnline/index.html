@@ -198,7 +198,7 @@
             <!-- Quick Nav -->
             <div class="flex items-center space-x-8">
                 <ul class="hidden md:flex space-x-8 text-sm font-medium">
-                    <li><a href="#features" class="hover:text-blue-400 transition-colors duration-300" aria-label="Features Section">Features</a></li>
+                    <li><a href="#home" class="hover:text-blue-400 transition-colors duration-300" aria-label="Home Section">Home</a></li>
                     <li><a href="#packages" class="hover:text-blue-400 transition-colors duration-300" aria-label="Packages Section">Solutions</a></li>
                     <li><a href="#testimonials" class="hover:text-blue-400 transition-colors duration-300" aria-label="Reviews Section">Reviews</a></li>
                     <li><a href="https://junago.net" target="_blank" rel="noopener" class="hover:text-blue-400 transition-colors duration-300" aria-label="Corporate Website">About Axivion</a></li>
@@ -228,7 +228,7 @@
         <button class="absolute top-4 right-4 text-white" aria-label="Close Menu">
             <i class="fas fa-times text-2xl"></i>
         </button>
-        <a href="#features" class="text-xl text-white hover:text-blue-400 transition-colors duration-300">Features</a>
+        <a href="#home" class="text-xl text-white hover:text-blue-400 transition-colors duration-300">Home</a>
         <a href="#packages" class="text-xl text-white hover:text-blue-400 transition-colors duration-300">Solutions</a>
         <a href="#testimonials" class="text-xl text-white hover:text-blue-400 transition-colors duration-300">Reviews</a>
         <a href="https://junago.net" target="_blank" rel="noopener" class="text-xl text-white hover:text-blue-400 transition-colors duration-300">About Axivion</a>
@@ -713,7 +713,7 @@
             <div>
                 <h4 class="text-white font-bold mb-4">Quick Links</h4>
                 <ul class="space-y-2">
-                    <li><a href="#features" class="text-gray-400 hover:text-blue-400 transition-colors duration-300">Features</a></li>
+                    <li><a href="#home" class="text-gray-400 hover:text-blue-400 transition-colors duration-300">Home</a></li>
                     <li><a href="#packages" class="text-gray-400 hover:text-blue-400 transition-colors duration-300">Solutions</a></li>
                     <li><a href="#testimonials" class="text-gray-400 hover:text-blue-400 transition-colors duration-300">Reviews</a></li>
                     <li><a href="https://junago.net" target="_blank" rel="noopener" class="text-gray-400 hover:text-blue-400 transition-colors duration-300">About Axivion</a></li>
@@ -727,7 +727,7 @@
                     <li><a href="javascript:void(0);" onclick="openPopup('terms')" class="text-gray-400 hover:text-blue-400 transition-colors duration-300">Terms of Service</a></li>
                     <li><a href="javascript:void(0);" onclick="openPopup('privacy')" class="text-gray-400 hover:text-blue-400 transition-colors duration-300">Privacy Policy</a></li>
                     <li><a href="javascript:void(0);" onclick="openPopup('disclaimer')" class="text-gray-400 hover:text-blue-400 transition-colors duration-300">Disclaimer</a></li>
-                    <li><a href="https://t.me/traderplus_bot" target="_blank" rel="noopener" class="text-gray-400 hover:text-blue-400 transition-colors duration-300">AI Bot</a></li>
+                    <li><a href="https://t.me/traderplusonline" target="_blank" rel="noopener" class="text-gray-400 hover:text-blue-400 transition-colors duration-300">Community</a></li>
                 </ul>
             </div>
 
@@ -852,7 +852,10 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         e.preventDefault();
         const target = document.querySelector(anchor.getAttribute('href'));
         if (target) {
-            // gsap.to(window, { ... });
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
         }
     });
 });

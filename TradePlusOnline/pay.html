@@ -20,6 +20,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --primary-blue: #3b82f6;
+            --primary-blue-dark: #1d4ed8;
+            --success-green: #10b981;
+            --urgency-orange: #f59e0b;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
         * {
             font-family: 'Inter', sans-serif;
             box-sizing: border-box;
@@ -29,22 +37,30 @@
         }
         body {
             overflow-x: hidden;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #fff;
         }
         .gradient-text {
-            background: linear-gradient(135deg, #10B981, #059669);
+            background: linear-gradient(135deg, var(--primary-blue), var(--success-green));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+        }
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
         .pulse-glow {
             animation: pulse-glow 2s infinite;
         }
         @keyframes pulse-glow {
             0%, 100% {
-                box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
             }
             50% {
-                box-shadow: 0 0 40px rgba(16, 185, 129, 0.8);
+                box-shadow: 0 0 40px rgba(59, 130, 246, 0.8);
             }
         }
         .floating {
@@ -59,7 +75,7 @@
             }
         }
         .slide-in {
-            animation: slideIn 0.8s ease-out;
+            animation: slideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
         @keyframes slideIn {
             from {
@@ -76,11 +92,54 @@
             transition: width 0.3s ease;
         }
         .fade-in {
-            animation: fadeIn 1s ease-out;
+            animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
+        }
+        /* Glass morphism for cards and inputs */
+        .card-glass, .input-glass {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+        .input-glass:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px var(--primary-blue-dark);
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, var(--primary-blue), var(--success-green));
+            color: #fff;
+            font-weight: 600;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+        }
+        .btn-primary:hover, .btn-primary:focus {
+            background: linear-gradient(90deg, var(--primary-blue-dark), var(--success-green));
+            box-shadow: 0 4px 24px 0 var(--primary-blue-dark);
+            transform: translateY(-2px) scale(1.03);
+        }
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+            font-weight: 600;
+            transition: background 0.2s, color 0.2s, border 0.2s;
+        }
+        .btn-secondary:hover, .btn-secondary:focus {
+            background: var(--primary-blue);
+            color: #fff;
+            border-color: var(--primary-blue-dark);
+        }
+        .badge-secure {
+            background: linear-gradient(90deg, var(--primary-blue), var(--success-green));
+            color: #fff;
+            font-size: 0.85rem;
+            border-radius: 9999px;
+            padding: 0.25rem 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         /* Loading optimization */
         img {
@@ -108,36 +167,27 @@
 
 <!-- Header -->
 <header class="pt-8 pb-8 px-4 md:px-12">
-    <div class="max-w-6xl mx-auto flex items-center justify-between">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
         <div class="flex items-center space-x-4">
             <img src="./assets/logowhite.png" alt="Trader Plus Logo" class="h-12 w-12 floating" loading="eager">
             <div>
                 <h1 class="text-xl md:text-2xl font-black gradient-text">TRADER PLUS</h1>
-                <p class="text-xs text-gray-300">IT Solutions</p>
+                <p class="text-xs text-gray-300">by Axivion LLC <span class="ml-2 px-2 py-1 bg-blue-900/30 text-blue-300 rounded-full">Wyoming FinTech</span></p>
             </div>
         </div>
-
-        <!-- Progress Indicator -->
-        <div class="hidden md:flex items-center space-x-4 text-sm">
-            <div class="flex items-center space-x-2">
-                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                    <i class="fas fa-check text-white text-xs" aria-hidden="true"></i>
-                </div>
-                <span>Package Selected</span>
+        <div class="flex flex-col items-end space-y-2">
+            <nav class="flex items-center space-x-2 text-sm text-gray-400">
+                <a href="index.html" class="hover:text-green-400 transition flex items-center"><i class="fas fa-arrow-left mr-1"></i>Back to Home</a>
+                <span>/</span>
+                <span class="text-white font-semibold">Checkout</span>
+            </nav>
+            <div class="flex items-center space-x-2 mt-2">
+                <span class="flex items-center text-xs text-green-400"><i class="fas fa-lock mr-1"></i>SSL Secured</span>
+                <span class="flex items-center text-xs text-blue-400"><i class="fas fa-shield-alt mr-1"></i>PCI DSS</span>
+                <span class="flex items-center text-xs text-yellow-400"><i class="fas fa-certificate mr-1"></i>SEC Compliant</span>
             </div>
-            <div class="w-8 h-1 bg-green-500 rounded"></div>
-                            <div class="flex items-center space-x-2">
-                    <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                        <span class="text-white text-xs font-bold">2</span>
-                    </div>
-                    <span>Order Details</span>
-                </div>
-            <div class="w-8 h-1 bg-gray-600 rounded"></div>
-            <div class="flex items-center space-x-2">
-                <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
-                    <span class="text-gray-400 text-xs font-bold">3</span>
-                </div>
-                <span class="text-gray-400">Confirmation</span>
+            <div class="flex items-center space-x-2 mt-1">
+                <span class="text-xs text-gray-400">Powered by <a href="https://junago.net" target="_blank" class="underline hover:text-blue-400">Axivion LLC</a></span>
             </div>
         </div>
     </div>

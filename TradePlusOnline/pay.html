@@ -360,6 +360,13 @@
             🎉 Congratulations! You now have access to our professional tools.
             Check your email for confirmation details and next steps.
         </p>
+        
+        <!-- Promo Code Section -->
+        <div class="bg-yellow-900/30 border border-yellow-500/30 rounded-lg p-4 mb-4">
+            <p class="text-sm font-bold text-yellow-400 mb-2">PROMO CODE FOR 24 Hours</p>
+            <p class="text-lg font-bold text-red-500">FREE24</p>
+        </div>
+        
         <div class="bg-green-900/30 border border-green-500/30 rounded-lg p-4 mb-6">
             <p class="text-sm">
                 <strong>What happens next?</strong><br>
@@ -369,8 +376,9 @@
                 • Professional support available
             </p>
         </div>
-        <button onclick="closeSuccessModal()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg transition">
-            Continue
+        <button onclick="openTelegramBot()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg transition">
+            <i class="fab fa-telegram mr-2"></i>
+            Join Telegram Bot
         </button>
     </div>
 </div>
@@ -656,6 +664,13 @@ function closeSuccessModal() {
     document.getElementById('successModal').classList.add('hidden');
     // Optionally redirect to thank you page
     // window.location.href = '/thank-you';
+}
+
+function openTelegramBot() {
+    // Open Telegram bot in new tab
+    window.open('https://t.me/axivion_bot', '_blank');
+    // Close the modal
+    closeSuccessModal();
 }
 
 // Popup functions

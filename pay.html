@@ -1,0 +1,49 @@
+document.addEventListener('DOMContentLoaded', function() {
+    // gtag: Открытие страницы оплаты
+    if (typeof gtag === 'function') {
+        gtag('event', 'view_payment_page', {
+            event_category: 'page_view',
+            event_label: 'pay_page_opened'
+        });
+    }
+
+    // gtag: Отправка формы (24h Free Access) + конверсия
+    const preOrderForm = document.getElementById('preOrderForm');
+    if (preOrderForm) {
+        preOrderForm.addEventListener('submit', function() {
+            if (typeof gtag === 'function') {
+                gtag('event', 'form_submission', {
+                    event_category: 'conversion',
+                    event_label: '24h_free_access'
+                });
+                gtag('event', 'conversion', {
+                    'send_to': 'AW-17146158339/twZKC2YhdaIEl069u8_'
+                });
+            }
+        });
+    }
+
+    // gtag: Клик по Join Telegram Bot
+    document.querySelectorAll('[data-gtag="join-telegram"]').forEach(el => {
+        el.addEventListener('click', function() {
+            if (typeof gtag === 'function') {
+                gtag('event', 'click_telegram_bot', {
+                    event_category: 'navigation',
+                    event_label: 'join_telegram_bot'
+                });
+            }
+        });
+    });
+
+    // gtag: Клик по AI Trading Bot (выбор пакета)
+    document.querySelectorAll('[data-gtag="select-ai-bot"]').forEach(el => {
+        el.addEventListener('click', function() {
+            if (typeof gtag === 'function') {
+                gtag('event', 'select_ai_bot', {
+                    event_category: 'selection',
+                    event_label: 'ai_trading_bot_selected'
+                });
+            }
+        });
+    });
+}); 

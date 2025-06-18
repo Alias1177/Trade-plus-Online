@@ -172,10 +172,7 @@
                 </div>
             </div>
             <div class="text-center md:text-right">
-                <p class="text-white text-sm md:text-base mb-2">You'll get: 1 signal — and it will pay for the subscription. Don't miss out.</p>
-                <button onclick="window.location.href='#order-form'" class="bg-white text-red-600 font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105">
-                    Start Free Now
-                </button>
+                <p class="text-white text-sm md:text-base mb-2">You'll get: 24 hour Free signals — and it will pay for the subscription. Don't miss out.</p>
             </div>
         </div>
     </div>
@@ -378,14 +375,22 @@
         </div>
         <h3 class="text-2xl font-bold mb-4 text-green-400">Access Confirmed!</h3>
         <p class="text-gray-300 mb-6">
-            🎉 Congratulations! You now have access to our professional tools.
+            🎉 Congratulations! You now have access to professional tools.
             Check your email for confirmation details and next steps.
         </p>
         
         <!-- Promo Code Section -->
-        <div class="bg-yellow-900/30 border border-yellow-500/30 rounded-lg p-4 mb-4">
-            <p class="text-sm font-bold text-yellow-400 mb-2">PROMO CODE FOR 24 Hours</p>
-            <p class="text-lg font-bold text-red-500">FREE24</p>
+        <div class="bg-yellow-900/30 border border-yellow-500/30 rounded-lg p-4 mb-4 flex flex-col items-center justify-center text-center">
+            <p class="text-sm font-bold text-yellow-400 mb-1">PROMO CODE FOR 24 Hours</p>
+            <div class="flex flex-row items-center justify-center">
+                <span id="promoCode" class="text-2xl font-bold text-red-500 select-all">FREE24</span>
+                <div class="flex flex-col items-center ml-2">
+                    <button id="copyPromoBtn" class="p-2 rounded hover:bg-yellow-800 transition mb-1" title="Copy">
+                        <i id="copyIcon" class="fas fa-copy text-yellow-300"></i>
+                    </button>
+                    <span id="copyTooltip" class="text-xs text-green-400 hidden">Copied!</span>
+                </div>
+            </div>
         </div>
         
         <div class="bg-green-900/30 border border-green-500/30 rounded-lg p-4 mb-6">
@@ -462,6 +467,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateOrderSummary();
     setupFormSubmission();
     initializeCountdown();
+    setupPromoCopy();
 });
 
 // Handle URL parameters for automatic package selection
@@ -1177,6 +1183,25 @@ function initializeCountdown() {
     // Update countdown every second
     updateCountdown();
     setInterval(updateCountdown, 1000);
+}
+
+// Promo code copy logic
+function setupPromoCopy() {
+    const btn = document.getElementById('copyPromoBtn');
+    const code = document.getElementById('promoCode');
+    const icon = document.getElementById('copyIcon');
+    const tooltip = document.getElementById('copyTooltip');
+    if (!btn || !code || !icon || !tooltip) return;
+    btn.onclick = function() {
+        navigator.clipboard.writeText(code.textContent).then(() => {
+            icon.className = 'fas fa-check text-green-400';
+            tooltip.classList.remove('hidden');
+            setTimeout(() => {
+                icon.className = 'fas fa-copy text-yellow-300';
+                tooltip.classList.add('hidden');
+            }, 1500);
+        });
+    };
 }
 </script>
 

@@ -247,7 +247,7 @@
                         <i class="fab fa-telegram mr-2"></i>Community
                     </a>
                     <button onclick="window.location.href='/pay'" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium px-6 py-2 rounded-lg transition-all duration-300 transform hover:scale-105">
-                        Get Started
+                        Start Free Now
                     </button>
                 </div>
             </div>
@@ -275,7 +275,7 @@
             <i class="fab fa-telegram mr-2"></i>Join Community
         </a>
         <button onclick="window.location.href='/pay'" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium px-8 py-3 rounded-lg transition-all duration-300">
-            Get Started
+            Start Free Now
         </button>
     </div>
 </div>
@@ -304,6 +304,26 @@
                 Professional <span class="text-blue-400">AI Trading</span><br>
                 Solutions
             </h1>
+            
+            <!-- New Subtitle -->
+            <div class="bg-gradient-to-r from-green-500/20 to-blue-500/20 border border-green-500/30 rounded-2xl p-6 mb-8">
+                <p class="text-2xl md:text-3xl font-bold text-white mb-2">
+                    🚀 Start your FREE 24H AI Trading Journey now
+                </p>
+                <p class="text-lg md:text-xl text-gray-300">
+                    Real-time predictions. No risk. No credit card.
+                </p>
+            </div>
+            
+            <!-- Countdown Timer -->
+            <div class="bg-gradient-to-r from-red-600/20 to-red-700/20 border border-red-500/30 rounded-2xl p-6 mb-8">
+                <div class="text-center">
+                    <h3 class="text-xl md:text-2xl font-bold text-white mb-2">⏳ Limited Time Offer</h3>
+                    <p class="text-lg text-gray-300 mb-4">Осталось времени для бесплатного доступа:</p>
+                    <div class="text-4xl md:text-5xl font-bold text-red-400 mb-4" id="mainCountdown">24:00:00</div>
+                    <p class="text-sm text-gray-400">Ты получишь: 1 сигнал — и он окупит подписку. Не упусти.</p>
+                </div>
+            </div>
             
             <!-- Subheading -->
             <p class="text-xl md:text-2xl text-gray-300 leading-relaxed max-w-4xl mx-auto">
@@ -342,7 +362,7 @@
             <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center mt-12">
                 <button onclick="window.location.href='/pay'" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105">
                     <i class="fas fa-rocket mr-2"></i>
-                    Get Started
+                    Start Free Now
                 </button>
                 <a href="https://t.me/traderplusonline" target="_blank" rel="noopener" class="border-2 border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105">
                     <i class="fab fa-telegram mr-2"></i>
@@ -649,7 +669,7 @@
             <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center">
                 <button onclick="window.location.href='/pay'" class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105">
                     <i class="fas fa-rocket mr-2"></i>
-                    Start Free Trial
+                    Start Free Now
                 </button>
                 <a href="https://t.me/traderplusonline" target="_blank" rel="noopener" class="border-2 border-green-500 text-green-400 hover:bg-green-500 hover:text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105">
                     <i class="fab fa-telegram mr-2"></i>
@@ -756,7 +776,7 @@
             <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center">
                 <button onclick="window.location.href='/pay'" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105">
                     <i class="fas fa-rocket mr-2"></i>
-                    Get Started Now
+                    Start Free Now
                 </button>
                 <a href="https://t.me/traderplusonline" target="_blank" rel="noopener" class="border-2 border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105">
                     <i class="fab fa-telegram mr-2"></i>
@@ -878,7 +898,7 @@
             <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center">
                 <button onclick="window.location.href='/pay'" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105">
                     <i class="fas fa-rocket mr-2"></i>
-                    Get Started
+                    Start Free Now
                 </button>
                 <a href="https://t.me/traderplusonline" target="_blank" rel="noopener" class="border-2 border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105">
                     <i class="fab fa-telegram mr-2"></i>
@@ -1223,6 +1243,55 @@ document.addEventListener('DOMContentLoaded', () => {
             playOverlay.style.display = 'none';
         }
     }
+
+    // Countdown Timer Functionality for Main Page
+    function initializeMainCountdown() {
+        // Get stored end time or set new one (24 hours from now)
+        let endTime = localStorage.getItem('countdownEndTime');
+        
+        if (!endTime) {
+            // Set countdown to 24 hours from now
+            const now = new Date();
+            endTime = now.getTime() + (24 * 60 * 60 * 1000); // 24 hours in milliseconds
+            localStorage.setItem('countdownEndTime', endTime);
+        }
+        
+        function updateMainCountdown() {
+            const now = new Date().getTime();
+            const distance = endTime - now;
+            
+            if (distance < 0) {
+                // Countdown expired - reset for next session
+                localStorage.removeItem('countdownEndTime');
+                document.getElementById('mainCountdown').innerHTML = 'EXPIRED';
+                document.querySelector('.bg-gradient-to-r.from-red-600\\/20.to-red-700\\/20').classList.add('animate-pulse');
+                return;
+            }
+            
+            // Calculate hours, minutes, seconds
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            // Display countdown
+            document.getElementById('mainCountdown').innerHTML = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Add urgency effects when time is running low
+            if (distance < 3600000) { // Less than 1 hour
+                document.getElementById('mainCountdown').classList.add('animate-pulse', 'text-red-300');
+            } else if (distance < 7200000) { // Less than 2 hours
+                document.getElementById('mainCountdown').classList.add('text-orange-300');
+            }
+        }
+        
+        // Update countdown every second
+        updateMainCountdown();
+        setInterval(updateMainCountdown, 1000);
+    }
+
+    // Initialize main countdown
+    initializeMainCountdown();
 });
 </script>
 

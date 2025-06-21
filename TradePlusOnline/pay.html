@@ -117,6 +117,32 @@
             pointer-events: none;
         }
     </style>
+    <script>
+      gtag('event', 'view_payment_page', {
+        'send_to': 'AW-17146158339/Xc9tCL2r6o4YZKH9qOEp'
+      });
+    </script>
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '4219783541602820'); 
+      fbq('track', 'PageView');
+      fbq('track', 'ViewContent', {
+        content_name: 'Payment Page'
+      });
+    </script>
+    <noscript>
+      <img height="1" width="1" style="display:none"
+           src="https://www.facebook.com/tr?id=4219783541602820&ev=PageView&noscript=1"/>
+    </noscript>
+    <!-- End Meta Pixel Code -->
 </head>
 
 <body class="bg-gradient-to-br from-gray-900 via-gray-800 to-green-900 text-white min-h-screen">
@@ -425,7 +451,7 @@
                 </div>
 
                 <!-- Submit Button -->
-                <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 rounded-xl transition-all duration-300 pulse-glow">
+                <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 rounded-xl transition-all duration-300 pulse-glow" onclick="gtag('event', 'click_start_free', {'send_to': 'AW-17146158339/U9vdCJZk6o4YZKH9qOEp'}); fbq('track', 'InitiateCheckout', {button: 'StartFree'})">
                     <i class="fas fa-lock mr-2"></i>
                     ACTIVATE FREE ACCESS
                 </button>
@@ -474,7 +500,7 @@
                 • Professional support available
             </p>
         </div>
-        <button onclick="openTelegramBot()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg transition">
+        <button onclick="gtag('event', 'click_start_free', {'send_to': 'AW-17146158339/U9vdCJZk6o4YZKH9qOEp'}); fbq('track', 'InitiateCheckout', {button: 'TelegramBot'}); openTelegramBot()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg transition">
             <i class="fab fa-telegram mr-2"></i>
             Join Telegram Bot
         </button>
@@ -729,6 +755,29 @@ function setupFormSubmission() {
             if (response.ok) {
                 const result = await response.text(); // Go возвращает "Data saved"
                 showSuccessModal();
+                
+                // GTAG form submission event
+                gtag('event', 'form_submission', {
+                  'send_to': 'AW-17146158339/X9XFCN1z6o4YZKH9qOEp',
+                  'event_callback': function() {
+                    console.log('Form submitted event sent');
+                  }
+                });
+                
+                // Meta Pixel Lead event
+                fbq('track', 'Lead', {
+                  content_name: 'Form Submission'
+                });
+                
+                // Meta Pixel Purchase event
+                const userEmail = document.getElementById('email')?.value || '';
+                fbq('track', 'Purchase', {
+                  value: 14.99,
+                  currency: 'USD',
+                  content_name: 'Telegram Bot Subscription',
+                  content_type: 'product',
+                  email: userEmail
+                });
                 
                 // Update user counter
                 const counters = document.querySelectorAll('.counter');

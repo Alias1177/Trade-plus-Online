@@ -194,25 +194,13 @@
     </div>
 </header>
 
-<!-- Red Banner with Countdown Timer -->
-<div class="bg-gradient-to-r from-red-600 to-red-700 border-b-4 border-red-800 py-4 px-4 md:px-12">
-    <div class="max-w-6xl mx-auto">
-        <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-            <div class="flex items-center space-x-4">
-                <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                    <i class="fas fa-clock text-white text-xl"></i>
-                </div>
-                <div>
-                    <h2 class="text-xl md:text-2xl font-bold text-white">🕒 24h Free Access — Limited Time!</h2>
-                    <p class="text-red-100 text-sm md:text-base">⏳ Time remaining: <span id="countdown" class="font-bold text-yellow-300">24:00:00</span>. After expiration — access will be closed.</p>
-                </div>
-            </div>
-            <div class="text-center md:text-right">
-                <p class="text-white text-sm md:text-base mb-2">Get real-time crypto signals powered by institutional AI. 24H trial — free, no risk, no card.</p>
-            </div>
-        </div>
-    </div>
+<!-- Countdown Timer (static, не фиксированный) -->
+<div class="w-full bg-gradient-to-r from-blue-700 via-blue-500 to-blue-700 h-[40px] flex items-center justify-center shadow-md">
+    <i class="fas fa-clock text-white mr-2 text-sm"></i>
+    <span class="text-white text-sm md:text-base font-semibold mr-2">Time left for free access:</span>
+    <span class="font-bold text-white text-base md:text-lg tracking-widest" id="mainCountdown">24:00:00</span>
 </div>
+<div style="height:0;"></div> <!-- Spacer больше не нужен -->
 
 <!-- Why Trader Plus Benefits Section -->
 <div class="bg-gradient-to-r from-blue-900/30 to-green-900/30 border border-blue-500/30 rounded-2xl p-8 mb-8">
@@ -1283,8 +1271,8 @@ function initializeCountdown() {
         if (distance < 0) {
             // Countdown expired - reset for next session
             localStorage.removeItem('countdownEndTime');
-            document.getElementById('countdown').innerHTML = 'EXPIRED';
-            document.querySelector('.bg-gradient-to-r.from-red-600.to-red-700').classList.add('animate-pulse');
+            document.getElementById('mainCountdown').innerHTML = 'EXPIRED';
+            document.querySelector('.bg-gradient-to-r.from-blue-700.via-blue-500.to-blue-700').classList.add('animate-pulse');
             return;
         }
         
@@ -1294,14 +1282,14 @@ function initializeCountdown() {
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
         
         // Display countdown
-        document.getElementById('countdown').innerHTML = 
+        document.getElementById('mainCountdown').innerHTML = 
             `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         
         // Add urgency effects when time is running low
         if (distance < 3600000) { // Less than 1 hour
-            document.getElementById('countdown').classList.add('animate-pulse', 'text-red-300');
+            document.getElementById('mainCountdown').classList.add('animate-pulse', 'text-red-300');
         } else if (distance < 7200000) { // Less than 2 hours
-            document.getElementById('countdown').classList.add('text-orange-300');
+            document.getElementById('mainCountdown').classList.add('text-orange-300');
         }
     }
     

@@ -390,50 +390,6 @@
             </div>
 
             <form id="preOrderForm" class="space-y-6">
-                <!-- Contact Information -->
-                <div class="space-y-4">
-                    <h3 class="text-lg font-semibold border-b border-gray-600 pb-2">Contact Information</h3>
-
-                    <div>
-                        <label class="block text-sm font-medium mb-2">Phone Number *</label>
-                        <div class="relative">
-                            <input type="tel" id="phoneNumber" required placeholder="+1234567890" 
-                                class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:border-green-500 focus:outline-none transition"
-                                onblur="validatePhone(this.value)"
-                                oninput="validatePhoneRealTime(this.value)">
-                            <div id="phoneValidationIcon" class="email-validation-icon hidden">
-                                <i class="fas fa-check text-green-500" id="phoneSuccessIcon"></i>
-                                <i class="fas fa-times text-red-500" id="phoneErrorIcon"></i>
-                            </div>
-                        </div>
-                        <div id="phoneValidationMessage" class="text-xs mt-1"></div>
-                        <p class="text-xs text-gray-400 mt-1">Include country code (e.g., +1234567890)</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium mb-2">Email Address *</label>
-                        <div class="relative">
-                            <input type="email" id="email" required 
-                                   class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:border-green-500 focus:outline-none transition"
-                                   placeholder="your.email@example.com"
-                                   onblur="validateEmail(this.value)"
-                                   oninput="validateEmailRealTime(this.value)">
-                            <div id="emailValidationIcon" class="email-validation-icon hidden">
-                                <i class="fas fa-check text-green-500" id="emailSuccessIcon"></i>
-                                <i class="fas fa-times text-red-500" id="emailErrorIcon"></i>
-                            </div>
-                        </div>
-                        <div id="emailValidationMessage" class="text-xs mt-1"></div>
-                        <p class="text-xs text-gray-400 mt-1">We'll send your pre-order confirmation here</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium mb-2">Telegram Username (Optional)</label>
-                        <input type="text" id="telegram" placeholder="@username" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 focus:border-green-500 focus:outline-none transition">
-                        <p class="text-xs text-gray-400 mt-1">Optional: For faster bot access and notifications</p>
-                    </div>
-                </div>
-
                 <!-- Order Summary -->
                 <div class="bg-green-900/30 border border-green-500/30 rounded-lg p-4">
                     <h3 class="font-bold mb-3">Selected Package</h3>
@@ -459,10 +415,11 @@
                 </div>
 
                 <!-- Submit Button -->
-                <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 rounded-xl transition-all duration-300 pulse-glow" onclick="gtag('event', 'click_start_free', {'send_to': 'AW-17146158339/U9vdCJZk6o4YZKH9qOEp'}); fbq('track', 'InitiateCheckout', {button: 'StartFree'})">
+                <button type="button" class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 rounded-xl transition-all duration-300 pulse-glow" onclick="handleAccessClick()">
                     <i class="fas fa-lock mr-2"></i>
                     ACTIVATE FREE ACCESS
                 </button>
+                <div id="termsError" class="text-center text-sm text-red-400 mt-2 hidden">You must agree to the Terms & Conditions and Privacy Policy.</div>
 
                 <div class="text-center text-sm text-gray-400">
                     <i class="fas fa-shield-alt mr-1"></i>
@@ -482,11 +439,10 @@
         <h3 class="text-2xl font-bold mb-4 text-green-400">Access Confirmed!</h3>
         <p class="text-gray-300 mb-6">
             🎉 Congratulations! You now have access to professional tools.
-            Check your email for confirmation details and next steps.
         </p>
         
         <!-- Promo Code Section -->
-        <div class="bg-yellow-900/30 border border-yellow-500/30 rounded-lg p-4 mb-4 flex flex-col items-center justify-center text-center">
+        <div id="promoSection" class="bg-yellow-900/30 border border-yellow-500/30 rounded-lg p-4 mb-4 flex flex-col items-center justify-center text-center">
             <p class="text-sm font-bold text-yellow-400 mb-1">PROMO CODE FOR 24 Hours</p>
             <div class="flex flex-row items-center justify-center">
                 <span id="promoCode" class="text-2xl font-bold text-red-500 select-all">FREE24</span>
@@ -499,16 +455,7 @@
             </div>
         </div>
         
-        <div class="bg-green-900/30 border border-green-500/30 rounded-lg p-4 mb-6">
-            <p class="text-sm">
-                <strong>What happens next?</strong><br>
-                • You'll receive a confirmation email<br>
-                • Digital products will be delivered<br>
-                • Access to professional tools<br>
-                • Professional support available
-            </p>
-        </div>
-        <button onclick="gtag('event', 'click_start_free', {'send_to': 'AW-17146158339/U9vdCJZk6o4YZKH9qOEp'}); fbq('track', 'InitiateCheckout', {button: 'TelegramBot'}); openTelegramBot()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg transition">
+        <button id="joinTelegramBtn" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg transition">
             <i class="fab fa-telegram mr-2"></i>
             Join Telegram Bot
         </button>
@@ -817,6 +764,53 @@ function setupFormSubmission() {
 // Success modal
 function showSuccessModal() {
     document.getElementById('successModal').classList.remove('hidden');
+    // Скрываем или показываем промокод в зависимости от выбранного пакета
+    var promoSection = document.getElementById('promoSection');
+    if (promoSection) {
+        if (selectedPackage === 'Id3') {
+            promoSection.style.display = '';
+        } else {
+            promoSection.style.display = 'none';
+        }
+    }
+    // Динамически меняем ссылку на Telegram Bot и возвращаем теги аналитики
+    var btn = document.getElementById('joinTelegramBtn');
+    if (btn) {
+        if (selectedPackage === 'Id1') {
+            btn.onclick = function() {
+                if (typeof gtag === 'function') {
+                    gtag('event', 'click_start_free', {'send_to': 'AW-17146158339/U9vdCJZk6o4YZKH9qOEp'});
+                }
+                if (typeof fbq === 'function') {
+                    fbq('track', 'InitiateCheckout', {button: 'TelegramBot'});
+                }
+                window.open('https://t.me/Axivion_bot', '_blank');
+                closeSuccessModal();
+            };
+        } else if (selectedPackage === 'Id2') {
+            btn.onclick = function() {
+                if (typeof gtag === 'function') {
+                    gtag('event', 'click_start_free', {'send_to': 'AW-17146158339/U9vdCJZk6o4YZKH9qOEp'});
+                }
+                if (typeof fbq === 'function') {
+                    fbq('track', 'InitiateCheckout', {button: 'TelegramBot'});
+                }
+                window.open('https://t.me/Trade_Plus_Online_Bot', '_blank');
+                closeSuccessModal();
+            };
+        } else if (selectedPackage === 'Id3') {
+            btn.onclick = function() {
+                if (typeof gtag === 'function') {
+                    gtag('event', 'click_start_free', {'send_to': 'AW-17146158339/U9vdCJZk6o4YZKH9qOEp'});
+                }
+                if (typeof fbq === 'function') {
+                    fbq('track', 'InitiateCheckout', {button: 'TelegramBot'});
+                }
+                window.open('https://t.me/TradePlusAI_Bot', '_blank');
+                closeSuccessModal();
+            };
+        }
+    }
 }
 
 function closeSuccessModal() {
@@ -1333,6 +1327,18 @@ function setupPromoCopy() {
             }, 1500);
         });
     };
+}
+
+function handleAccessClick() {
+    var terms = document.getElementById('terms');
+    var error = document.getElementById('termsError');
+    if (!terms.checked) {
+        error.classList.remove('hidden');
+        return;
+    } else {
+        error.classList.add('hidden');
+        showSuccessModal();
+    }
 }
 </script>
 
